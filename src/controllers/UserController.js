@@ -20,6 +20,12 @@ module.exports = {
     })
   },
 
+  async listUser(req, res){
+    const { id } = req.params
+    const [ user ] = await connection('user').select('*').where('id', id)
+    return res.json(user)
+  },
+
   async index(req, res) {
     const users = await connection('user').select('*')
 

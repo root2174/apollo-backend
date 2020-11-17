@@ -5,6 +5,7 @@ const UserController = require('./controllers/UserController')
 //List All Users
 routes.get('/user', UserController.index)
 //List A User
+routes.get('/user/:id', UserController.listUser)
 //Create a User
 routes.post('/user', UserController.create)
 //Update a User
