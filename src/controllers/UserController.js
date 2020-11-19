@@ -83,5 +83,33 @@ module.exports = {
       })
       .catch((err) => console.log(err));
     
+  },
+  async signIn(req, res) {
+    await connection('user')
+          .where({email: req.body.email})
+          .first()
+          .then((user) => {
+            if(!user) {
+              res.status(401).json({error: 'No user by that email'})
+            } else {
+              if(user.password == req.body.password) {
+                return res.status(200).json({
+                  ...user
+                })
+              }
+            }
+          })
+            
+  },
+  async delete(req, res) {
+    await connection('user')
+          .where({id: req.params.id})
+          .del()
+          .then(() => {
+            res.status(200).json({
+              "message": "User deleted"
+            })
+          })
+    
   }
 }
