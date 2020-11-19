@@ -2,11 +2,12 @@ const connection = require('../database/connection');
 
 module.exports = {
   async create(req, res) {
-    const { name, email, dob, city, state, gender, interests, friends } = req.body;
+    const { name, email, password, dob,city, state, gender, interests, friends } = req.body;
 
     await connection('user').insert({
       name,
       email,
+      password,
       dob,
       city,
       state,
@@ -38,6 +39,7 @@ module.exports = {
 
     const { name,
       email,
+      password,
       dob,
       city,
       state,
@@ -50,6 +52,7 @@ module.exports = {
     .update({
       name: name,
       email: email,
+      email: password,
       dob: dob,
       city: city,
       state: state,
@@ -64,7 +67,6 @@ module.exports = {
 
   async listFriends(req, res) {
     const friendsIds = JSON.parse(req.body.friendsIds)
-    console.log(friendsIds)
 
     const queries = friendsIds.map(friend => {
         return connection('user')
