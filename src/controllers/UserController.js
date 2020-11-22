@@ -24,12 +24,16 @@ module.exports = {
   async listUser(req, res){
     const { id } = req.params
     const [ user ] = await connection('user').select('*').where('id', id)
+    user.friends = JSON.parse(user.friends)
     return res.json(user)
   },
 
   async index(req, res) {
     const users = await connection('user').select('*')
-
+    users.map((user) => {
+      user.friends = JSON.parse(user.friends)
+    })
+    console.log(users)
     return res.json(users)
   },
 
@@ -52,7 +56,7 @@ module.exports = {
     .update({
       name: name,
       email: email,
-      email: password,
+      password: password,
       dob: dob,
       city: city,
       state: state,
@@ -67,6 +71,7 @@ module.exports = {
 
   async listFriends(req, res) {
     const friendsIds = JSON.parse(req.body.friendsIds)
+    console.log(friendsIds)
 
     const queries = friendsIds.map(friend => {
         return connection('user')
